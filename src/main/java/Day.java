@@ -11,6 +11,46 @@ public class Day
     private String temperatureDay;
     private String temperatureNight;
 
+    public String getDayOfWeek() {
+        return dayOfWeek;
+    }
+
+    public void setDayOfWeek(String dayOfWeek) {
+        this.dayOfWeek = dayOfWeek;
+    }
+
+    public String getDayOfMonth() {
+        return dayOfMonth;
+    }
+
+    public void setDayOfMonth(String dayOfMonth) {
+        this.dayOfMonth = dayOfMonth;
+    }
+
+    public String getEventOfDay() {
+        return eventOfDay;
+    }
+
+    public void setEventOfDay(String eventOfDay) {
+        this.eventOfDay = eventOfDay;
+    }
+
+    public String getTemperatureDay() {
+        return temperatureDay;
+    }
+
+    public void setTemperatureDay(String temperatureDay) {
+        this.temperatureDay = temperatureDay;
+    }
+
+    public String getTemperatureNight() {
+        return temperatureNight;
+    }
+
+    public void setTemperatureNight(String temperatureNight) {
+        this.temperatureNight = temperatureNight;
+    }
+
     public Day(Element dayOfWeek,Element dayOfMonth, Element eventOfDay, String attrEvent, Element temperatureDay, Element temperatureNight){
         this.dayOfWeek = getDay(dayOfWeek.text());
         this.dayOfMonth = getNumber(dayOfMonth.text());
@@ -75,28 +115,5 @@ public class Day
         return  day;
     }
 
-    public String getDayOfWeek()
-    {
-        return this.dayOfWeek;
-    }
 
-    public String getDayOfMonth()
-    {
-        return this.dayOfMonth;
-    }
-
-    public String getEventOfDay()
-    {
-        return this.eventOfDay;
-    }
-
-    public String getTemperatureDay()
-    {
-        return this.temperatureDay;
-    }
-
-    public String getTemperatureNight()
-    {
-        return this.temperatureNight;
-    }
 }
