@@ -1,12 +1,7 @@
 package com.weather.java;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.jsoup.nodes.Element;
-
-import java.util.Scanner;
 
 @Data
 public class Day
@@ -29,8 +24,8 @@ public class Day
         this.dayOfWeek = getDay(dayOfWeek.text());
         this.dayOfMonth = getNumber(dayOfMonth.text());
         this.eventOfDay = eventOfDay.attr(attrEvent);
-        this.temperatureDay = temperatureDay.text();
-        this.temperatureNight = temperatureNight.text();
+        this.temperatureDay = setCelsiusSign(temperatureDay.text());
+        this.temperatureNight = setCelsiusSign(temperatureNight.text());
     }
 
     public Day(String name, String eventOfDay, Double clouds, Double humidity, Double temperature, Double feelsLike, Double temperatureMax, Double temperatureMin) {
@@ -56,44 +51,56 @@ public class Day
     }
 
     private String getNumber(String data) {
-        int num = 0;
-        try (Scanner s = new Scanner(data)) {
-            while (s.hasNextInt()) {
-                num = s.nextInt();
+        StringBuilder str = new StringBuilder(data);
+        StringBuilder strOut = new StringBuilder();
+
+        for (int i = 0; i < str.length(); i++) {
+            if (Character.isDigit(str.charAt(i))) {
+                strOut.append(str.charAt(i));
             }
         }
-        return String.valueOf(num);
+        return strOut.toString();
     }
 
     private String getDay(String data) {
         String day = "";
         switch (data) {
-            case "Понедельник":
-                day = "Пн";
+            case "Пн", "понедельник", "пн":
+                day = "Понедельник";
                 break;
-            case "Вторник":
-                day = "Вт";
+            case "Вт", "вторник", "вт":
+                day = "Вторник";
                 break;
-            case "Среда":
-                day = "Ср";
+            case "Ср", "среда", "ср":
+                day = "Среда";
                 break;
-            case "Четверг":
-                day = "Чт";
+            case "Чт", "четверг", "чт":
+                day = "Четверг";
                 break;
-            case "Пятница":
-                day = "Пт";
+            case "Пт", "пятница", "пт":
+                day = "Пятница";
                 break;
-            case "Суббота":
-                day = "Сб";
+            case "сб", "суббота", "Сб":
+                day = "Суббота";
                 break;
-            case "Воскресенье":
-                day = "Вс";
+            case "Вс", "воскресенье", "вс":
+                day = "Воскресенье";
                 break;
             default:
                 day = data;
                 break;
         }
         return day;
+    }
+
+    private String setCelsiusSign(String data)
+    {
+        StringBuilder str = new StringBuilder(data);
+        if (str.charAt(str.length() - 1) != '°')
+        {
+            return str.append('°').toString();
+        }
+        return str.toString();
     }
 
 }
