@@ -1,33 +1,17 @@
 package com.weather.java.operations;
 
-import java.util.Scanner;
+import com.weather.java.Day;
 
 public class Operations
 {
-    public static int getPoint(int startIndex, int endIndex)
-    {
-        Scanner sc = new Scanner(System.in);
-        int num;
-
-        do {
-            System.out.print("Введите число: ");
-
-            while (!sc.hasNextInt())
-            {
-                System.out.println("Ошибка! Это не число! Повторите попытку.");
-                System.out.print("Введите число: ");
-                sc.next(); // this is important!
-            }
-
-            num = sc.nextInt();
-
-            if (num < startIndex || num > endIndex)
-            {
-                System.out.println("Ошибка! Выход за границы ввода. Повторите попытку.");
-            }
-
-        } while (num < startIndex || num > endIndex);
-
-        return num;
+    public static void printWeatherDay(Day currentDay) {
+        System.out.println("Погода на сегодня в городе: " + currentDay.getNameCity());
+        System.out.println(" - " + currentDay.getEventOfDay());
+        System.out.println(" - Облачность  = " + currentDay.getClouds() + "%");
+        System.out.println(" - Влажность   = " + currentDay.getHumidity() + "°");
+        System.out.println(" - Температура = " + currentDay.getTemperature() + "°");
+        System.out.println(" - Ощущается   = " + currentDay.getFeelsLike() + "°");
+        System.out.println(" - Максимум    = " + currentDay.getTemperatureMax() + "°");
+        System.out.println(" - Минимум     = " + currentDay.getTemperatureMin() + "°");
     }
 }

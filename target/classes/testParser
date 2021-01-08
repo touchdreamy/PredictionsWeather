@@ -1,0 +1,22 @@
+// метод для парсинга одного сайта
+
+public static void get(Document page, List<Day> prediction)
+    {
+        Element tableWeather =  page.select("body > div.g-layout.layout.js-module > div.sticky-springs.js-springs__group.js-module").first();
+        Elements dayOfWeek = tableWeather.select("div.heading.heading_minor.heading_line > span.heading__inner_light");
+        Elements dayOfMonth       = tableWeather.select("div.heading.heading_minor.heading_line" );
+        Elements eventOfDay       = tableWeather.select("div > div.cols__column__item.cols__column__item_2-1.cols__column__item_2-1_ie8 > div:nth-child(3) > div.weather-icon[title]");
+        Elements dayTemperature   = tableWeather.select("div > div.cols__column__item.cols__column__item_2-1.cols__column__item_2-1_ie8 > div:nth-child(3) > div.day__temperature");
+        Elements nightTemperature = tableWeather.select("div > div.cols__column__item > div:nth-child(4) > div.day__temperature");
+
+        for (int i = 0; i < 5; i++)
+        {
+            System.out.println(dayOfMonth.get(i).text());
+        }
+
+        System.out.println(dayOfWeek.text());
+        System.out.println(dayOfMonth.text());
+        System.out.println(eventOfDay.attr("title"));
+        System.out.println(dayTemperature.text());
+        System.out.println(nightTemperature.text());
+    }
