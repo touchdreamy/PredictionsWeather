@@ -4,9 +4,7 @@ import com.weather.java.operations.*;
 import com.weather.java.operations.predictions.*;
 import dnl.utils.text.table.TextTable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 public class Main
 {
@@ -33,19 +31,16 @@ public class Main
 
                 dataWebsites.add(
                         Utilities.getData(
-                        new GetMailRuWeatherPrediction().getPrediction(countDays), "MailRu"));
+                        new GetMailRuWeatherPrediction(countDays)
+                                .getPrediction(), "MailRu"));
 
                 dataWebsites.add(
                         Utilities.getData(
-                        new GetGismeteoWeatherPrediction().getPrediction(countDays), "Gismeteo"));
+                        new GetGismeteoWeatherPrediction(countDays).getPrediction(), "Gismeteo"));
 
                 dataWebsites.add(
                         Utilities.getData(
-                        new GetWorldWeatherPrediction().getPrediction(countDays), "WorldWeather"));
-
-                dataWebsites.add(
-                        Utilities.getData(
-                        new GetRuMeteoPrediction().getPrediction(countDays), "RuMeteo"));
+                        new GetWorldWeatherPrediction(countDays).getPrediction(), "WorldWeather"));
 
                 String[] columnNames = {
                         "Сайт",

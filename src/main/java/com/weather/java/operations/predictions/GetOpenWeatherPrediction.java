@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class GetOpenWeatherPrediction extends GetWeatherPrediction{
+public class GetOpenWeatherPrediction{
 
     @SneakyThrows
     public List<Day> getPrediction(String nameCity)

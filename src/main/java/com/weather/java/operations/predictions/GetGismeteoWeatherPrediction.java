@@ -1,45 +1,62 @@
 package com.weather.java.operations.predictions;
 
-import com.weather.java.Day;
-import com.weather.java.operations.Utilities;
 import lombok.SneakyThrows;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class GetGismeteoWeatherPrediction extends GetWeatherPrediction{
 
+    public GetGismeteoWeatherPrediction(int countDays) {
+        super(countDays);
+    }
+
     @Override
-    public List<Day> getPrediction(int countDays)
-    {
-        List<Day> prediction = new ArrayList<>();
+    protected List<String> getDayOfWeek() {
+        Elements data = page
+                .select("div.widget__body").first()
+                .select("div.w_date__day");
+        return IntStream.range(0, countDays).mapToObj(i -> data.get(i).text()).collect(Collectors.toList());
+    }
 
-        Element tableWeather = getDocument().select("div.widget__body").first();
-        Elements dayOfWeek   = tableWeather.select("div.w_date__day");
-        Elements dayOfMonth  = tableWeather.select("span.w_date__date");
-        Elements eventOfDay  = tableWeather.select("span.tooltip");
-        Elements dayTemperature = tableWeather.select("div.maxt > span.unit.unit_temperature_c");
-        Elements nightTemperature = tableWeather.select("div.mint > span.unit.unit_temperature_c");
+    @Override
+    protected List<String> getDayOfMonth() {
+        Elements data = page
+                .select("div.widget__body").first()
+                .select("span.w_date__date");
+        return IntStream.range(0, countDays).mapToObj(i -> data.get(i).text()).collect(Collectors.toList());
+    }
 
-        for (int i = 0; i < countDays; i++) {
-            Day day = new Day()
-                    .setDayOfWeek(Utilities.getDay(dayOfWeek.get(i).text()))
-                    .setDayOfMonth(Utilities.getNumber(dayOfMonth.get(i).text()))
-                    .setEventOfDay(eventOfDay.get(i).attr("data-text"))
-                    .setTemperatureDay(Utilities.setCelsiusSign(dayTemperature.get(i).text()))
-                    .setTemperatureNight(Utilities.setCelsiusSign(nightTemperature.get(i).text()));
-            prediction.add(i, day);
-        }
+    @Override
+    protected List<String> getEventOfDay() {
+        Elements data = page
+                .select("div.widget__body").first()
+                .select("span.tooltip");
+        return IntStream.range(0, countDays).mapToObj(i -> data.get(i).attr("data-text")).collect(Collectors.toList());
+    }
 
-        return prediction;
+    @Override
+    protected List<String> getTemperatureDay() {
+        Elements data = page
+                .select("div.widget__body").first()
+                .select("div.maxt > span.unit.unit_temperature_c");
+        return IntStream.range(0, countDays).mapToObj(i -> data.get(i).text()).collect(Collectors.toList());
+    }
+
+    @Override
+    protected List<String> getTemperatureNight() {
+        Elements data = page
+                .select("div.widget__body").first()
+                .select("div.mint > span.unit.unit_temperature_c");
+        return IntStream.range(0, countDays).mapToObj(i -> data.get(i).text()).collect(Collectors.toList());
     }
 
     @SneakyThrows
-    private Document getDocument() {
+    protected Document getDocument() {
         return Jsoup.connect("https://www.gismeteo.ru/weather-nizhny-novgorod-4355/10-days/").get();
     }
 }
